@@ -1,0 +1,38 @@
+---
+
+- block:
+  - name: create required .vim and Plug directories
+    file:
+      path: "{{ item }}"
+      state: directory
+      mode: '0755'
+    with_items:
+      - "/home/{{ansible_env.SUDO_USER}}/.vim"
+      - "/home/{{ansible_env.SUDO_USER}}/.vim/autoload"
+      - "/home/{{ansible_env.SUDO_USER}}/.vim/plugged"
+
+  - name: get Plug vim plugin manager
+    get_url:
+      url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+      dest: "/home/{{ansible_env.SUDO_USER}}/.vim/autoload/plug.vim"
+      mode: '0640'
+
+  # configure vimrc with tidalvim plugin source
+  - name: installing new .vimrc with Plug support
+    template:
+      src: templates/dot.vimrc.template
+      dest: "/home/{{ ansible_env.SUDO_USER }}/.vimrc"
+      mode: '0640'
+  
+  - name: install tidal-vim plugin
+    shell: vim +Silent +VimEnter +PlugInstall +qall
+
+  become: yes
+  become_method: su
+  become_user: "{{ansible_env.SUDO_USER}}"
+  become_flags: '-s /bin/bash'
+
+- name: set up tidalvim symlinks in the PATH
+  make:
+    chdir: /home/{{ansible_env.SUDO_USER}}/.vim/plugged/vim-tidal/
+    target: install

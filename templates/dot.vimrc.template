@@ -1,0 +1,3 @@
+call plug#begin('~/.vim/plugged')
+Plug 'tidalcycles/vim-tidal'
+call plug#end()
