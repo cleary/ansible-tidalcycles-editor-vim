@@ -22,7 +22,6 @@
       dest: "/home/{{ansible_env.SUDO_USER}}/.vim/autoload/plug.vim"
       mode: '0640'
 
-  # configure vimrc with tidalvim plugin source
   - name: installing new .vimrc with Plug support - any existing .vimrc file will be backed up
     template:
       src: templates/dot.vimrc.template
