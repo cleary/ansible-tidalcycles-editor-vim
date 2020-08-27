@@ -28,6 +28,8 @@
       dest: "/home/{{ ansible_env.SUDO_USER }}/.vimrc"
       mode: '0640'
       backup: yes
+    tags:
+    - config
   
   - name: install tidal-vim plugin
     shell: vim +Silent +VimEnter +PlugInstall +qall
