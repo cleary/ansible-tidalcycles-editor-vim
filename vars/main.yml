@@ -1,0 +1,3 @@
+---
+
+boottidal_hs: "/home/{{ansible_env.SUDO_USER}}/.vim/plugged/vim-tidal/Tidal.ghci"
