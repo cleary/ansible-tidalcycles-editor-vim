@@ -61,14 +61,15 @@
   - name: load mutable-instruments parameter file in Tidal boot file
     lineinfile:
         path: "{{ boottidal_hs }}"
-        insertbefore: '^:set prompt(.*$)'
+        insertbefore: '^:set prompt (.*$)'
         line: ":script /home/{{ansible_env.SUDO_USER}}/.local/share/ansible-tidalcycles/scripts/mutable-instruments-ugens_parameters.hs"
 
   become: yes
   become_method: su
   become_user: "{{ansible_env.SUDO_USER}}"
   become_flags: '-s /bin/bash'
-  when: sc_ugens is defined and '"mutable-instruments" in sc_ugens'
+  when: sc_ugens is defined and "mutable-instruments" in sc_ugens
+
 - debug:
     msg: "/usr/local/bin/tidalvim already exists, doing nothing"
   when: tidalvim.stat.islnk is defined
