@@ -1,7 +1,7 @@
 ---
 
 - set_fact:
-  boottidal_hs: "/home/{{ansible_env.SUDO_USER}}/.config/nvim/plugged/vim-tidal/Tidal.ghci"
+    boottidal_hs: "/home/{{ansible_env.SUDO_USER}}/.config/nvim/plugged/vim-tidal/Tidal.ghci"
 
 - name: check if tidalvim is already installed
   stat:
