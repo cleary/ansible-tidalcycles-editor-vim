@@ -1,9 +1,0 @@
----
-- name: install vim editor and dependencies
-  pacman:
-    state: latest
-    update_cache: yes
-    name: [ 'vim',
-            'tmux',
-            'git',
-            'make' ]
