@@ -1,8 +1,5 @@
 ---
 
-- set_fact:
-    boottidal_hs: "/home/{{ansible_env.SUDO_USER}}/.config/nvim/plugged/vim-tidal/Tidal.ghci"
-
 - name: check if tidalvim is already installed
   stat:
     path: /usr/local/bin/tidalvim
@@ -49,30 +46,12 @@
     target: install
   when: tidalvim.stat.islnk is not defined
 
-- block:
-  - name: create required config scripts directory
-    file:
-      path: "/home/{{ansible_env.SUDO_USER}}/.local/share/ansible-tidalcycles/scripts/"
-      state: directory
-      recurse: yes
-
-  - name: copy mutable-instruments params file to scripts dir
-    get_url:
-      url: https://raw.githubusercontent.com/cleary/ansible-tidalcycles/master/files/mutable-instruments-ugens_parameters.hs
-      dest: "/home/{{ansible_env.SUDO_USER}}/.local/share/ansible-tidalcycles/scripts/mutable-instruments-ugens_parameters.hs"
-
-  become: yes
-  become_method: su
-  become_user: "{{ansible_env.SUDO_USER}}"
-  become_flags: '-s /bin/bash'
-  when: sc_ugens is defined and "mutable-instruments" in sc_ugens
-
-- name: load mutable-instruments parameter file in Tidal boot file
-  lineinfile:
-      path: "{{ boottidal_hs }}"
-      insertbefore: '^:set prompt (.*$)'
-      line: ":script /home/{{ansible_env.SUDO_USER}}/.local/share/ansible-tidalcycles/scripts/mutable-instruments-ugens_parameters.hs"
-  when: sc_ugens is defined and "mutable-instruments" in sc_ugens
+- include_role:
+    name: "roles/ugens-{{ item }}"
+  vars:
+    editor: "{{ vim.editor }}"
+  with_items: "{{ sc_ugens }}"
+  when: sc_ugens is defined
 
 - debug:
     msg: "/usr/local/bin/tidalvim already exists, doing nothing"
