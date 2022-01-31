@@ -1,10 +1,5 @@
 ---
 
-- name: check if tidalvim is already installed
-  stat:
-    path: /usr/local/bin/tidalvim
-  register: tidalvim
-
 - block:
   - name: create required .vim and Plug directories
     file:
@@ -34,7 +29,6 @@
   - name: install tidal-vim plugin
     shell: vim +Silent +VimEnter +PlugInstall +qall
 
-  when: tidalvim.stat.islnk is not defined
   become: yes
   become_method: su
   become_user: "{{ansible_env.SUDO_USER}}"
