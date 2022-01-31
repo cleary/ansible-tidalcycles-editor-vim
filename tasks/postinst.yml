@@ -42,10 +42,12 @@
 
 - name: set up tidal symlink in the PATH
   file:
-    src: /home/{{ansible_env.SUDO_USER}}/.config/nvim/plugged/vim-tidal/bin/tidal
-    dest: /usr/local/bin/tidal
+    src: "/home/{{ansible_env.SUDO_USER}}/.vim/plugged/vim-tidal/bin/{{ item }}"
+    dest: "/usr/local/bin/{{ item }}"
     state: link
-  when: tidalvim.stat.islnk is not defined
+  with_items:
+    - tidal
+    - tidalvim
 
 - include_role:
     name: "roles/ugens-{{ item }}"
