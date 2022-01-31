@@ -40,10 +40,11 @@
   become_user: "{{ansible_env.SUDO_USER}}"
   become_flags: '-s /bin/bash'
 
-- name: set up tidalvim symlinks in the PATH
-  make:
-    chdir: /home/{{ansible_env.SUDO_USER}}/.vim/plugged/vim-tidal/
-    target: install
+- name: set up tidal symlink in the PATH
+  file:
+    src: /home/{{ansible_env.SUDO_USER}}/.config/nvim/plugged/vim-tidal/bin/tidal
+    dest: /usr/local/bin/tidal
+    state: link
   when: tidalvim.stat.islnk is not defined
 
 - include_role:
