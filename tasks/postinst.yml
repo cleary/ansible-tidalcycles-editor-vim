@@ -27,7 +27,7 @@
     - config
   
   - name: install tidal-vim plugin
-    shell: vim +Silent +VimEnter +PlugInstall +qall
+    shell: vim-nox +Silent +VimEnter +PlugInstall +qall
 
   become: yes
   become_method: su
@@ -49,7 +49,3 @@
     editor: "{{ vim.editor }}"
   with_items: "{{ sc_ugens }}"
   when: sc_ugens is defined
-
-- debug:
-    msg: "/usr/local/bin/tidalvim already exists, doing nothing"
-  when: tidalvim.stat.islnk is defined
