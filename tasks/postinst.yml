@@ -27,7 +27,7 @@
     - config
   
   - name: install tidal-vim plugin
-    shell: vim-nox +Silent +VimEnter +PlugInstall +qall
+    shell: vim.nox +Silent +VimEnter +PlugInstall +qall
 
   become: yes
   become_method: su
