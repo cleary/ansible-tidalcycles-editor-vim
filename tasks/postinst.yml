@@ -10,6 +10,7 @@
       - "/home/{{ansible_env.SUDO_USER}}/.vim"
       - "/home/{{ansible_env.SUDO_USER}}/.vim/autoload"
       - "/home/{{ansible_env.SUDO_USER}}/.vim/plugged"
+      - "/home/{{ansible_env.SUDO_USER}}/.ansible/tmp"
 
   - name: get Plug vim plugin manager
     get_url:
